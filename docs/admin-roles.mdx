@@ -1,0 +1,39 @@
+# Admin Roles
+
+## Overview
+
+The application implements a role-based access control system with two roles:
+- `admin`: Users with elevated privileges
+- `user`: Regular users with standard access
+
+## Implementation
+
+### Role Assignment
+
+Roles are automatically assigned during signup based on the user's email address:
+
+```ts
+const role = getRoleForEmail(email, {
+  adminEmail: process.env.VITE_ADMIN_EMAIL
+});
+```
+
+### Usage
+
+```tsx
+import { useAuth } from '@/hooks/use-auth';
+
+function MyComponent() {
+  const { isAdmin } = useAuth();
+  
+  return isAdmin ? <AdminFeature /> : <UserFeature />;
+}
+```
+
+## Configuration
+
+Set the admin email in your `.env` file:
+
+```bash
+VITE_ADMIN_EMAIL=admin@example.com
+```
