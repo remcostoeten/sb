@@ -1,17 +1,24 @@
+'use client';
+
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { supabase } from '@/services/supabase/config';
 import { useNavigate } from '@tanstack/react-router';
+import type { AuthChangeEvent } from '@supabase/supabase-js';
 
 function CallbackPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: AuthChangeEvent) => {
       if (event === 'SIGNED_IN') {
         navigate({ to: '/_layout' });
       }
     });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [navigate]);
 
   return (

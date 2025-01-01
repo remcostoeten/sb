@@ -5,10 +5,11 @@ import { Route as indexRoute } from './routes/index'
 import { Route as settingsRoute } from './routes/settings'
 import { Route as callbackRoute } from './routes/auth/callback'
 
+// Make sure auth routes are grouped together
 export const routeTree = layoutRoute.addChildren([
-  loginRoute,
-  registerRoute,
   indexRoute,
   settingsRoute,
-  callbackRoute
+  loginRoute,
+  registerRoute,
+  callbackRoute.addChildren([]) // Remove .addChildren([]) if not needed
 ])
